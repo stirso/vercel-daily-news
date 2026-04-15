@@ -5,11 +5,11 @@ import { UserPlus } from 'lucide-react';
 
 export default function Navigation () {
   return (
-    <header className="flex w-full h-full flex-col justify-center items-center">
+    <header className="flex w-full h-full flex-col justify-center items-center sticky top-0 z-10">
       <div className="container px-4 flex justify-between items-center">
         <div className="flex w-full max-w-full justify-between items-center">
           <Link
-            className="flex items-end justify-start"
+            className="flex items-center justify-center gap-2 pr-4"
             href="/"
           >
             <Image
@@ -24,7 +24,7 @@ export default function Navigation () {
           <div className="flex flex-1 flex-row justify-start">
             <Header />
           </div>
-          <button className="flex items-center justify-center gap-2 md:p-2 md:px-3">
+          <button className="flex items-center justify-center gap-2 md:p-2 md:px-3 hover:opacity-65 hover:cursor-pointer">
             <UserPlus className="w-6" /> <span>Subscribe</span>
           </button>
         </div>
