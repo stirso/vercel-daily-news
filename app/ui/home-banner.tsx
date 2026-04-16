@@ -8,7 +8,6 @@ export default async function HomeBanner () {
   if (!breakingNews.success) return null;
 
   const { headline } = breakingNews.data as never as BreakingNews;
-  console.log('HOME BANNER > breakingNews', breakingNews);
 
   return (
     <div className="flex w-full h-full flex-col justify-center items-center bg-zinc-600">

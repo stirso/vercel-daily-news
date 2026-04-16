@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Header from './header';
 import Image from "next/image";
 import { UserPlus } from 'lucide-react';
+import { Suspense } from 'react';
 
 export default function Navigation () {
   return (
@@ -22,7 +23,9 @@ export default function Navigation () {
             <span className="font-medium">Vercel Daily</span>
           </Link>
           <div className="flex flex-1 flex-row justify-start">
-            <Header />
+            <Suspense fallback={<div></div>}>
+              <Header />
+            </Suspense>
           </div>
           <button className="flex items-center justify-center gap-2 md:p-2 md:px-3 hover:opacity-65 hover:cursor-pointer">
             <UserPlus className="w-6" /> <span>Subscribe</span>

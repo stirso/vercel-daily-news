@@ -1,6 +1,18 @@
+export type ResponseMeta = {
+  pagination: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  }
+}
+
 export type ResponseType = {
   success: boolean;
   data?: Record<string, string | number | boolean | null | undefined| never>[];
+  meta?: ResponseMeta;
   error?: string;
 }
 
@@ -10,38 +22,34 @@ export type ImageType = {
   caption?: string;	
 }
 
-export type ParagraphType = {
-  text: string;
-}
-
-export type HeadingType = {
-  level: 2 | 3;
-  text: string;	
-}
-
-export type BlockquoteType = {
-  text: string;
-}
-
-export type UnorderedListType = {
-  items: string[];
-}
-
-export type OrderedListType = {
-  items: string[];
-}
 export type ContentBlock = {
-  paragraph: ParagraphType;	// A paragraph of text
-  heading: HeadingType; // A section heading (h2 or h3)
-  blockquote: BlockquoteType;	// A highlighted quote
-  "unordered-list": UnorderedListType; // A bulleted list
-  "ordered-list": OrderedListType; // A numbered list
-  image: ImageType; // An image with optional caption
+  type: "paragraph" | "heading" | "blockquote" | "unordered-list" | "ordered-list" | "image";
+  text?:  string; // For paragraph, heading, blockquote
+  level?: 2 | 3; // For heading
+  items?: string[]; // For lists
+  src?: string; // For image
+  alt?: string; // For image
+  caption?: string; // For image
 }
 
 export type Article = {
-  blocks: ContentBlock[];
-}
+  author: {
+    name: string;
+    avatar?: string;
+  };
+  category: string;
+  content: ContentBlock[];
+  excerpt: string;
+  featured: boolean;
+  id: string;
+  image:string;
+  publishedAt: string;
+  slug: string;
+  tags: string[];
+  title: string;
+};
+
+export type Articles = Article[];
 
 export type BreakingNews = {
   articleId: string;
