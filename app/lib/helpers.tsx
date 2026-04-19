@@ -2,12 +2,16 @@ import type { ContentBlock } from "./types";
 import Image from "next/image";
 
 export function RenderArticleContent({ blocks }: { blocks: ContentBlock[] }) {
+
   return (
     <>
       {blocks.map((block, i) => {
         switch (block.type) {
           case "paragraph":
-            return <p key={i}>{(block).text}</p>
+            return <p key={i} dangerouslySetInnerHTML={{
+                __html: convertLinksToHtml(block.text as string)
+              }}
+            />
           case "heading":
             return block.level === 2
               ? <h2 key={i}>{block.text}</h2>
@@ -18,7 +22,10 @@ export function RenderArticleContent({ blocks }: { blocks: ContentBlock[] }) {
             return (
               <ul key={i}>
                 {block?.items?.map((item, j) => (
-                  <li key={j}>{item}</li>
+                  <li key={j} dangerouslySetInnerHTML={{
+                      __html: convertLinksToHtml(item as string)
+                    }}
+                  />
                 ))}
               </ul>
             )
@@ -26,7 +33,10 @@ export function RenderArticleContent({ blocks }: { blocks: ContentBlock[] }) {
             return (
               <ol key={i}>
                 {block?.items?.map((item, j) => (
-                  <li key={j}>{item}</li>
+                  <li key={j} dangerouslySetInnerHTML={{
+                      __html: convertLinksToHtml(item as string)
+                    }}
+                  />
                 ))}
               </ol>
             )
@@ -47,3 +57,11 @@ export function RenderArticleContent({ blocks }: { blocks: ContentBlock[] }) {
     </>
   )
 }
+
+function convertLinksToHtml(text: string) {
+  return text.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    ' <a href="$2" target="_blank" rel="noopener noreferrer">$1</a> '
+  );
+}
+ 

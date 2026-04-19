@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 
 export default function Navigation () {
   return (
-    <header className="flex w-full h-full flex-col justify-center items-center sticky top-0 z-10">
+    <header className="flex w-full h-full flex-col justify-center items-center sticky top-0 z-10 bg-white">
       <div className="container px-4 flex justify-between items-center">
         <div className="flex w-full max-w-full justify-between items-center">
           <Link

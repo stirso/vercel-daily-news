@@ -7,6 +7,10 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    fontFamily: {
+      geistSans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+      geistMono: ['var(--font-geist-mono)', 'system-ui', 'sans-serif'],
+    },
     extend: {
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',

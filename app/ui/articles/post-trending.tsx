@@ -1,27 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getArticles } from '@/app/lib/articles';
+import { getTrendingArticles } from '@/app/lib/articles';
 import type { Articles, ResponseType } from '@/app/lib/types';
 
 
-export default async function HomeFeatured () {
-  const articles: ResponseType = await getArticles(true);
+export default async function PostTrending () {
+  const articles: ResponseType = await getTrendingArticles();
   
   if (!articles.success) return null;
 
-  const articleItems = (articles.data as never as Articles).slice(0, 6);
-  console.log('HOME FEATURED > articles', articleItems);
+  const articleItems = (articles.data as never as Articles).slice(0, 3);
+  // console.log('Trending > articles', articleItems);
 
   return (
     <div className="flex w-full h-full flex-col justify-center items-center gap-6">
       <div className="flex justify-between items-center w-full">
         <div className="flex flex-col gap-2">
           <h2 className="text-xl lg:text-3xl font-bold">
-            Featured
+            Trending Now
           </h2>
-          <span className="text-base text-gray-500">
-            Handpicked stories from the team.
-          </span>
         </div>
         <Link
           className="text-gray-500 text-base hover:cursor-pointer"
@@ -43,6 +40,7 @@ export default async function HomeFeatured () {
                   alt={article.title}
                   className="object-cover"
                   fill
+                  loading="lazy"
                   sizes="(max-width: 768px) 50vw, 33vw"
                   src={article.image}
                 />

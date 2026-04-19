@@ -14,7 +14,22 @@ const nextConfig: NextConfig = {
       revalidate: 900, // 15 minutes
       expire: 3600, // 1 hour
     },
-  }
+    trending: {
+      stale: 300, // 5 minutes
+      revalidate: 900, // 15 minutes
+      expire: 3600, // 1 hour
+    },
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i8qy5y6gxkdgdcv9.public.blob.vercel-storage.com',
+        port: '',
+        pathname: '/**',
+      },
+    ]
+  },
 };
 
 export default nextConfig;

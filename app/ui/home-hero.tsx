@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 export default async function HomeHero () {
   return (
     <div className="flex w-full h-full flex-col justify-start items-start gap-8">
-      <h1 className="text-5xl font-bold mb-0 max-w-full md:max-w-[23ch]">
+      <h1 className="text-3xl lg:text-5xl font-bold mb-0 max-w-full md:max-w-[23ch]">
         <span className="text-base font-bold text-gray-500 uppercase block mb-2 tracking-widest">
           The Vercel Daily
         </span>
