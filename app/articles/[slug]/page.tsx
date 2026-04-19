@@ -6,6 +6,7 @@ import type { Article, ResponseType } from '@/app/lib/types'
 import { RenderArticleContent } from '@/app/lib/helpers'
 import PostTrending from '@/app/ui/articles/post-trending'
 import clsx from 'clsx'
+import { metadata } from '@/app/layout'
 
 // ✅ Direct data access - preferred approach
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -13,7 +14,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post: ResponseType = await getArticleBySlug(slug);
   const data: Article = post.data as never as Article;
   
-  console.log('POST IN GET METADATA > ', post)
   if (!post) {
     return {
       title: 'Post Not Found',
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `/${slug}`,
     },
     openGraph: {
-      title: data.title,
+      title: `${data.title} | ${metadata?.openGraph?.title || 'Vercel Daily News'}`,
       description: data.excerpt,
       images: [
         {

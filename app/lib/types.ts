@@ -11,7 +11,7 @@ export type ResponseMeta = {
 
 export type ResponseType = {
   success: boolean;
-  data?: Record<string, string | number | boolean | null | undefined| never>[];
+  data?: Record<string, string | number | boolean | Record<string, string | number >| null | undefined | never>[];
   meta?: ResponseMeta;
   error?: string;
 }
@@ -59,4 +59,18 @@ export type BreakingNews = {
   publishedAt: string;
   summary: string;
   urgent: boolean;
+}
+
+export type CategoryType = {
+  slug: string;
+  name: string;
+  articleCount: number;
+}
+
+export type CategoryList = CategoryType[];
+
+export type ArticleFilters = {
+  page?: number;
+  category?: string;
+  search?: string;
 }

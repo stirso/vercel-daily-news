@@ -1,7 +1,7 @@
 "use cache";
 
 import { cacheLife, cacheTag } from 'next/cache'
-import type { ResponseType } from './types';
+import type { ArticleFilters, ResponseType } from './types';
 
 const API_URL = process.env.NEWS_API_URL || '';
 const API_TOKEN = process.env.NEWS_API_TOKEN || '';
@@ -55,7 +55,7 @@ export async function getTrendingArticles() {
   }
 }
 
-export async function getArticles(featured?: boolean) {
+export async function getArticles(featured?: boolean, limit?: number, filter?: ArticleFilters) {
   try {
     const path = `${API_URL}/articles${featured ? '?featured=true' : ''}`
     cacheLife('featured')
@@ -74,6 +74,7 @@ export async function getArticles(featured?: boolean) {
     }
     
     const data: ResponseType = await response.json();
+    console.log('data > ', data)
     return { success: true, data: data.data, meta: data?.meta }
   } catch (error) {
     return { error: `${error}: CATCH Failed to fetch GET ARTICLES.`, success: false }
@@ -102,5 +103,29 @@ export async function getArticleBySlug(slug: string) {
     return { success: true, data: data.data, meta: data?.meta }
   } catch (error) {
     return { error: `${error}: CATCH Failed to fetch GET ARTICLES.`, success: false }
+  }
+}
+
+export async function getArticleCategories() {
+  try {
+    const path = `${API_URL}/categories`
+    cacheLife('categories')
+    cacheTag('categories') // Invalidate when any article changes
+    const response = await fetch(path, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-vercel-protection-bypass': API_TOKEN,
+      },
+      cache: 'no-cache',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to GET CATEGORIES: ${response.statusText}`);
+    }
+    const data: ResponseType = await response.json();
+    return { success: true, data: data.data, meta: data?.meta }
+  } catch (error) {
+    return { error: `${error}: CATCH Failed to fetch GET CATEGORIES.`, success: false }
   }
 }

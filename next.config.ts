@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
       revalidate: 900, // 15 minutes
       expire: 3600, // 1 hour
     },
+    categories: {
+      stale: 1200, 
+      revalidate: 3600, 
+      expire: 7200,
+    },
   },
   images: {
     remotePatterns: [

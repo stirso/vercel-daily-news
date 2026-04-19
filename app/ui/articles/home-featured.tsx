@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { getArticles } from '@/app/lib/articles';
 import type { Articles, ResponseType } from '@/app/lib/types';
-
+import ArticleGrid from "./article-grid";
 
 export default async function HomeFeatured () {
-  const articles: ResponseType = await getArticles(true);
+  const articles: ResponseType = await getArticles(true, 6);
   
   if (!articles.success) return null;
 
-  const articleItems = (articles.data as never as Articles).slice(0, 6);
+  const articleItems = (articles.data as never as Articles);
   console.log('HOME FEATURED > articles', articleItems);
 
   return (
@@ -30,35 +30,7 @@ export default async function HomeFeatured () {
           View All
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-        {articleItems.map((article) => (
-          <Link
-            key={article.id}
-            href={`/articles/${article.slug}`}
-            className="flex flex-col justify-start items-between gap-4 bg-gray-100/50 h-full"
-          >
-            <div className="relative overflow-hidden aspect-video w-full bg-white">
-              {article.image && 
-                <Image
-                  alt={article.title}
-                  className="object-cover"
-                  fill
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  src={article.image}
-                />
-              }
-            </div>
-            <div className="flex flex-col gap-4 px-4 pb-4 items-between">
-              <h3 className="text-lg lg:text-2xl font-semibold">
-                {article.title}
-              </h3>
-              <p className="text-sm text-gray-800">
-                {article.excerpt}
-              </p>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {articleItems && <ArticleGrid articles={articleItems} />}
     </div>
   );
 }

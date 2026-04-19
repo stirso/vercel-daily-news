@@ -23,11 +23,17 @@ export const metadata: Metadata = {
       : 'http://localhost:3000'
   ),
   title: {
-    template: '%s',
+    template: '%s | Vercel Daily News',
     default: 'Vercel Daily News',
   },
   description: 'Changelogs, engeneering deepdives, customer stories, and community updates - all in one place.',
+  keywords: "changelogs deepdives stories updates vercel nextjs react js",
+  alternates: {
+    canonical: `/`,
+  },
   openGraph: {
+    title: 'Vercel Daily News',
+    description: 'Changelogs, engeneering deepdives, customer stories, and community updates - all in one place.',
     siteName: 'Vercel Daily News',
     locale: 'en_US',
     type: 'website',
