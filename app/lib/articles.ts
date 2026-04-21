@@ -3,8 +3,8 @@
 import { cacheLife, cacheTag } from 'next/cache'
 import type { ArticleFilters, ResponseType } from './types';
 
-const API_URL = process.env.NEWS_API_URL || '';
-const API_TOKEN = process.env.NEWS_API_TOKEN || '';
+export const API_URL = process.env.NEWS_API_URL || '';
+export const API_TOKEN = process.env.NEWS_API_TOKEN || '';
 
 export async function getBreakingNews() {
   try {
@@ -86,7 +86,7 @@ export async function getArticles(featured?: boolean, limit?: number, filter?: A
 
     cacheLife('articles')
     cacheTag('articles')
-
+    console.log(path)
     const response = await fetch(path, {
       method: 'GET',
       headers: {

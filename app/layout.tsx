@@ -52,7 +52,9 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <div className="flex flex-col flex-1 items-center justify-start bg-zinc-50 font-sans">
-          <Navigation />
+          <Suspense fallback={<div className="full"></div>}>
+            <Navigation />
+          </Suspense>
           <main className="flex flex-col w-full justify-start items-center min-h-[50vh]">
             <Suspense fallback={<Loading />}>
             {children}

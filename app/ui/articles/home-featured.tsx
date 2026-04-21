@@ -10,7 +10,6 @@ export default async function HomeFeatured () {
   if (!articles.success) return null;
 
   const articleItems = (articles.data as never as Articles);
-  console.log('HOME FEATURED > articles', articleItems);
 
   return (
     <div className="flex w-full h-full flex-col justify-center items-center gap-6">

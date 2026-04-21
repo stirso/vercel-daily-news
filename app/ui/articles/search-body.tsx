@@ -53,7 +53,7 @@ export default function SearchBody(props: Props) {
       target.value = targetVal
       params.set('search', encodeURI(targetVal))
     } else {
-      target.value = ''
+      target.value = targetVal
       params.delete('search')
     }
 

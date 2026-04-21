@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import Header from './header';
 import Image from "next/image";
-import { UserPlus } from 'lucide-react';
-import { Suspense } from 'react';
+import BtnSubscribe from './buttons/btn-subscribe';
+import { checkUserSubscriptionState } from '../lib/subscription';
 
-export default function Navigation () {
+export default async function Navigation () {
+  const subStatus = await checkUserSubscriptionState();
+  const isSubscribed = subStatus.success
+  console.log('IS SUBSCRIBED > ', isSubscribed)
   return (
     <header className="flex w-full h-full flex-col justify-center items-center sticky top-0 z-10 bg-white">
       <div className="container px-4 flex justify-between items-center">
@@ -23,13 +26,9 @@ export default function Navigation () {
             <span className="font-medium">Vercel Daily</span>
           </Link>
           <div className="flex flex-1 flex-row justify-start">
-            <Suspense fallback={<div></div>}>
-              <Header />
-            </Suspense>
+            <Header />
           </div>
-          <button className="flex items-center justify-center gap-2 md:p-2 md:px-3 hover:opacity-65 hover:cursor-pointer">
-            <UserPlus className="w-6" /> <span>Subscribe</span>
-          </button>
+          <BtnSubscribe isSubscribed={isSubscribed} />
         </div>
       </div>
     </header>
