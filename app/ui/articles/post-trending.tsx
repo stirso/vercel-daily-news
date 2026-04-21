@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getTrendingArticles } from '@/app/lib/articles';
 import type { Articles, ResponseType } from '@/app/lib/types';

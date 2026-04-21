@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, ChangeEvent, useCallback, useRef } from 'react';
+import { useState, ChangeEvent, Suspense } from 'react';
 import { Articles, CategoryList, ResponseType } from '@/app/lib/types';
 import { Search } from 'lucide-react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
@@ -17,31 +17,37 @@ type Props = {
 export default function SearchBody(props: Props) {
   const { categories, search, filter, articles } = props;
   const [searchVal, setSearchVal] = useState(search ? decodeURI(search) : '')
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); // use this later on for pagination
   const [currentFilter, setCurrentFilter] = useState(filter || '');
   const [articleList, setArticleList] = useState<Articles>(articles || []);
+  const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleGetArticles = useCallback(async () => {
-    console.log('handle get articles searchVal > ', searchVal)
-    const list: ResponseType = await getArticles(false, 9, {
+  const handleGetArticles = async (newSearch?: string, newFilter?: string) => {
+    let limit = 9
+    setIsLoading(true);
+    if (newSearch || newFilter) {
+      if (newFilter !== '' || newSearch !== '') limit = 5;
+    }
+    const list: ResponseType = await getArticles(false, limit, {
       page: currentPage,
-      category: currentFilter !== '' ? currentFilter : '',
-      search: searchVal !== '' ? searchVal : ''
+      category: newFilter !== '' ? newFilter : '',
+      search: newSearch !== '' ? newSearch : ''
     })
     const data: Articles = list?.data ? list.data as never as Articles : [];
-    setArticleList(data);
-  }, [currentFilter, currentPage, searchVal])
+    
+    setArticleList(() => data);
+    setIsLoading(false);
+  }
 
   const handleSearch = useDebouncedCallback((e: ChangeEvent) => {
     const target = (e.target as HTMLInputElement)
     const targetVal = target.value
     const params = new URLSearchParams(searchParams);
-    
+
     if (targetVal !== '' && targetVal.length >= 3) {
-      console.log('SET SEARCH VAL HERE > ', targetVal)
       setSearchVal(targetVal)
       target.dataset.value = targetVal
       target.value = targetVal
@@ -52,7 +58,7 @@ export default function SearchBody(props: Props) {
     }
 
     replace(`${pathname}?${params.toString()}`);
-    handleGetArticles();
+    handleGetArticles(targetVal, '');
   }, 300);
 
   const handleCurrentFilter = (e: ChangeEvent) => {
@@ -63,10 +69,11 @@ export default function SearchBody(props: Props) {
       setCurrentFilter(filterVal)
       params.set('filter', filterVal)
     } else {
+      setCurrentFilter(filterVal)
       params.delete('filter')
     }
 
-    handleGetArticles()
+    handleGetArticles('', filterVal)
     replace(`${pathname}?${params.toString()}`);
   }
 
@@ -112,9 +119,13 @@ export default function SearchBody(props: Props) {
       {articleList && articleList.length > 0 
       ?
       (
-        <ArticleGrid articles={articleList} />
+        <ArticleGrid articles={articleList} isLoading={isLoading} />
       )
-      : null} 
+      : (
+        <div className="flex w-full justify-center items-center p-8">
+          <span className="text-lg">No articles found.</span>
+        </div>
+      )} 
     </div>
   )
 }

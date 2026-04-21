@@ -56,12 +56,22 @@ export async function getTrendingArticles() {
 }
 
 function buildArticlesQuery (filter: ArticleFilters): string {
-  console.log('buildArticlesQuery > ', filter)
-  let queryString = new URLSearchParams(filter as never as URLSearchParams).toString();
-  queryString = `&${queryString}`;
-    console.log('queryString > ', queryString)
+  let queryString = '';
+
+  if (filter.page) {
+    queryString += `&page=${filter.page}`;
+  }
+
+  if (filter.category) {
+    queryString += `&category=${filter.category}`;
+  }
+  
+  if (filter.search) {
+    queryString += `&search=${filter.search}`;
+  }
   return queryString
 }
+
 export async function getArticles(featured?: boolean, limit?: number, filter?: ArticleFilters) {
   try {
     let path = `${API_URL}/articles?${featured ? 'featured=true' : ''}`
@@ -74,7 +84,9 @@ export async function getArticles(featured?: boolean, limit?: number, filter?: A
       path += buildArticlesQuery(filter);
     }
 
-    console.log("FINAL PATH > ", path)
+    cacheLife('articles')
+    cacheTag('articles')
+
     const response = await fetch(path, {
       method: 'GET',
       headers: {
@@ -125,7 +137,7 @@ export async function getArticleCategories() {
   try {
     const path = `${API_URL}/categories`
     cacheLife('categories')
-    cacheTag('categories') // Invalidate when any article changes
+    cacheTag('categories') // Invalidate when any category changes
     const response = await fetch(path, {
       method: 'GET',
       headers: {
@@ -134,7 +146,7 @@ export async function getArticleCategories() {
       },
       cache: 'no-cache',
     });
-    
+
     if (!response.ok) {
       throw new Error(`Failed to GET CATEGORIES: ${response.statusText}`);
     }

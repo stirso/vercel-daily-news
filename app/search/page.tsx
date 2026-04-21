@@ -47,8 +47,8 @@ export default async function Search ({ searchParams }: SearchProps) {
   const categories: CategoryList = categoriesResponse.data as never as CategoryList;
   const list: ResponseType = await getArticles(false, 9, {
     page: 1,
-    category: filter || '',
-    search: search || ''
+    category: filter !== '' ? filter : '',
+    search: search !== '' ? search : ''
   })
   const articles: Articles = list?.data ? list.data as never as Articles : [];
 
@@ -59,7 +59,7 @@ export default async function Search ({ searchParams }: SearchProps) {
           Search Articles
         </h1>
       </div>
-      <SearchBody categories={categories} search={search} filter={filter} articles={articles} />
+      <SearchBody categories={categories || []} search={search} filter={filter} articles={articles} />
     </div>
   );
 }
