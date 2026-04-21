@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { metadata } from '../layout';
-import { getArticleCategories } from '../lib/articles';
-import { CategoryList, ResponseType } from '../lib/types';
+import { getArticles, getArticleCategories } from '../lib/articles';
+import { Articles, CategoryList, ResponseType } from '../lib/types';
 import SearchBody from '../ui/articles/search-body';
+
 
 // ✅ Direct data access - preferred approach
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,9 +30,27 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Search () {
-  const post: ResponseType = await getArticleCategories();
-  const data: CategoryList = post.data as never as CategoryList;
+type SearchProps = {
+  searchParams: Promise<{
+    search?: string;
+    filter?: string;
+  }>
+}
+
+export default async function Search ({ searchParams }: SearchProps) {
+  const {
+    search,
+    filter
+  } = await searchParams;
+
+  const categoriesResponse: ResponseType = await getArticleCategories();
+  const categories: CategoryList = categoriesResponse.data as never as CategoryList;
+  const list: ResponseType = await getArticles(false, 9, {
+    page: 1,
+    category: filter || '',
+    search: search || ''
+  })
+  const articles: Articles = list?.data ? list.data as never as Articles : [];
 
   return (
     <div className="w-full container px-4 flex flex-col justify-between items-start pt-8 gap-8 lg:gap-16">
@@ -40,7 +59,7 @@ export default async function Search () {
           Search Articles
         </h1>
       </div>
-      <SearchBody data={data} />
+      <SearchBody categories={categories} search={search} filter={filter} articles={articles} />
     </div>
   );
 }

@@ -55,11 +55,26 @@ export async function getTrendingArticles() {
   }
 }
 
+function buildArticlesQuery (filter: ArticleFilters): string {
+  console.log('buildArticlesQuery > ', filter)
+  let queryString = new URLSearchParams(filter as never as URLSearchParams).toString();
+  queryString = `&${queryString}`;
+    console.log('queryString > ', queryString)
+  return queryString
+}
 export async function getArticles(featured?: boolean, limit?: number, filter?: ArticleFilters) {
   try {
-    const path = `${API_URL}/articles${featured ? '?featured=true' : ''}`
-    cacheLife('featured')
-    cacheTag('featured') // Invalidate when any article changes
+    let path = `${API_URL}/articles?${featured ? 'featured=true' : ''}`
+
+    if (limit) {
+      path += `&limit=${limit}`
+    }
+
+    if (filter) {
+      path += buildArticlesQuery(filter);
+    }
+
+    console.log("FINAL PATH > ", path)
     const response = await fetch(path, {
       method: 'GET',
       headers: {
@@ -74,7 +89,7 @@ export async function getArticles(featured?: boolean, limit?: number, filter?: A
     }
     
     const data: ResponseType = await response.json();
-    console.log('data > ', data)
+
     return { success: true, data: data.data, meta: data?.meta }
   } catch (error) {
     return { error: `${error}: CATCH Failed to fetch GET ARTICLES.`, success: false }
