@@ -1,3 +1,5 @@
+'use server';
+
 import Link from 'next/link';
 import Header from './header';
 import Image from "next/image";
@@ -7,7 +9,8 @@ import { checkUserSubscriptionState } from '../lib/subscription';
 export default async function Navigation () {
   const subStatus = await checkUserSubscriptionState();
   const isSubscribed = subStatus.success
-  console.log('IS SUBSCRIBED > ', isSubscribed)
+  console.log('IS SUBSCRIBED IN NAVIGATION > ', isSubscribed)
+
   return (
     <header className="flex w-full h-full flex-col justify-center items-center sticky top-0 z-10 bg-white">
       <div className="container px-4 flex justify-between items-center">

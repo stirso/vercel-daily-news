@@ -16,6 +16,20 @@ export type ResponseType = {
   error?: string;
 }
 
+export type SubscriptionResponseType = {
+  success: boolean;
+  data?: SubscriptionUser;
+  error?: string;
+}
+
+export type SubscriptionUser = {
+  token: string;
+  status: string;
+  subscribedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export type ImageType = {
   src: string;
   alt: string;
