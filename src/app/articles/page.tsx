@@ -1,3 +1,5 @@
+'use server';
+
 import type { Metadata } from 'next'
 import { metadata } from '../layout';
 import { getArticles, getArticleCategories } from '../../services/articles';

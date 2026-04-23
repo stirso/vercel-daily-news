@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { metadata } from '../layout';
-import { getArticles, getArticleCategories } from '../../services/articles';
+import { getArticles, getArticleCategories } from '@/services/articles';
 import { Articles, CategoryList, ResponseType } from '../../types/types';
 import SearchBody from '../../components/ui/articles/search-body';
 

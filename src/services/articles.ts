@@ -30,6 +30,7 @@ export async function getBreakingNews() {
 }
 
 export async function getTrendingArticles() {
+  "use cache";
   try {
     const path = `${API_URL}/articles/trending`
     cacheLife('trending')
@@ -71,6 +72,7 @@ function buildArticlesQuery (filter: ArticleFilters): string {
 }
 
 export async function getArticles(featured?: boolean, limit?: number, filter?: ArticleFilters) {
+  "use cache";
   try {
     let path = `${API_URL}/articles?${featured ? 'featured=true' : ''}`
 
@@ -106,6 +108,7 @@ export async function getArticles(featured?: boolean, limit?: number, filter?: A
 }
 
 export async function getArticleBySlug(slug: string) {
+  "use cache";
   try {
     const path = `${API_URL}/articles/${slug}`
     cacheLife('articles')

@@ -68,7 +68,6 @@ export default async function PostPage({ params }: Props) {
   const publishedDate = new Date(data.publishedAt);
   const fullContent = isSubscribed ? data.content : data.content.slice(0, 1);
 
-  console.log('data > ', data)
   return (
     <div className="w-full container px-4 flex flex-col justify-between items-start pt-8 gap-8 lg:gap-16">
       <article className="flex flex-col gap-8 mx-auto max-w-full lg:max-w-300">
