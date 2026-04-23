@@ -3,26 +3,26 @@ import { metadata } from '../layout';
 import { getArticles, getArticleCategories } from '../lib/articles';
 import { Articles, CategoryList, ResponseType } from '../lib/types';
 import SearchBody from '../ui/articles/search-body';
-
+import type { SearchProps } from '../search/page';
 
 // ✅ Direct data access - preferred approach
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: `${metadata?.openGraph?.title || 'Vercel Daily News'} | Search`,
-    description: "Search for specific topics by keywords or filter by category our articles.",
+    title: `${metadata?.openGraph?.title || 'Vercel Daily News'} | Articles`,
+    description: "View a list of articles from The Vercel Daily News archive.",
     keywords: "changelogs deepdives stories updates vercel nextjs react js",
     alternates: {
-      canonical: `/search`,
+      canonical: `/articles`,
     },
     openGraph: {
-      title: `${metadata?.openGraph?.title || 'Vercel Daily News'} | Search`,
-      description: "Search for specific topics by keywords or filter by category our articles.",
+      title: `${metadata?.openGraph?.title || 'Vercel Daily News'} | Articles`,
+      description: "View a list of articles from The Vercel Daily News archive.",
       images: [
         {
           url: '/vercel.svg',
           width: 1200,
           height: 630,
-          alt: "Search for specific topics by keywords or filter by category our articles.",
+          alt: "View a list of articles from The Vercel Daily News archive.",
         },
       ],
       type: 'website'
@@ -30,14 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export type SearchProps = {
-  searchParams: Promise<{
-    search?: string;
-    filter?: string;
-  }>
-}
-
-export default async function Search ({ searchParams }: SearchProps) {
+export default async function ArticlesPage ({ searchParams }: SearchProps) {
   const {
     search,
     filter
@@ -47,8 +40,8 @@ export default async function Search ({ searchParams }: SearchProps) {
   const categories: CategoryList = categoriesResponse.data as never as CategoryList;
   const list: ResponseType = await getArticles(false, 9, {
     page: 1,
-    category: filter !== '' ? filter : '',
-    search: search !== '' ? search : ''
+    category: '',
+    search: ''
   })
   const articles: Articles = list?.data ? list.data as never as Articles : [];
 
@@ -56,15 +49,15 @@ export default async function Search ({ searchParams }: SearchProps) {
     <div className="w-full container px-4 flex flex-col justify-between items-start pt-8 gap-8 lg:gap-16">
       <div className="w-full flex flex-col justify-center items-center">
         <h1 className="text-3xl lg:text-5xl font-bold mb-0 max-w-full md:max-w-[23ch]">
-          Search Articles
+          Articles
         </h1>
       </div>
       <SearchBody
         articles={articles}
-        categories={categories || []}        
+        categories={categories || []}
         filter={filter}
         search={search}
-        showFilters={true}
+        showFilters={false}
       />
     </div>
   );

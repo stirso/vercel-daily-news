@@ -1,13 +1,16 @@
+import Link from 'next/link';
 import { TriangleAlert } from 'lucide-react';
-import { getBreakingNews } from '../lib/articles';
-import type { BreakingNews, ResponseType } from '../lib/types';
+import { getArticleBySlug, getBreakingNews } from '../lib/articles';
+import type { Article, BreakingNews, ResponseType } from '../lib/types';
 
 export default async function HomeBanner () {
   const breakingNews: ResponseType = await getBreakingNews();
 
   if (!breakingNews.success) return null;
 
-  const { headline } = breakingNews.data as never as BreakingNews;
+  const { headline, articleId } = breakingNews.data as never as BreakingNews;
+  const articleResponse: ResponseType = await getArticleBySlug(articleId);
+  const article: Article = articleResponse?.data as never as Article;
 
   return (
     <div className="flex w-full h-full flex-col justify-center items-center bg-zinc-600">
@@ -16,6 +19,16 @@ export default async function HomeBanner () {
           <TriangleAlert className="stroke-white" />
           <div className="text-white text-base">
             {headline}
+            {article ? (
+              <>&nbsp;- &nbsp;
+                <Link
+                  href={`/articles/${article.slug}`}
+                  className="text-white underline"
+                >
+                  Read More
+                </Link>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

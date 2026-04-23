@@ -37,6 +37,14 @@ export const metadata: Metadata = {
     siteName: 'Vercel Daily News',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/vercel.svg',
+        width: 1200,
+        height: 630,
+        alt: "View a list of articles from The Vercel Daily News archive.",
+      },
+    ]
   },
 }
 

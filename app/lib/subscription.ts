@@ -18,8 +18,7 @@ export async function subscribeUser() {
         'x-vercel-protection-bypass': API_TOKEN,
       },
     });
-    console.log('subscribe user > ', path)
-    console.log('subscribe user > ', response)
+
     if (!response.ok) {
       throw new Error(`Failed to subscribe user: ${response.statusText}`);
     }
@@ -55,8 +54,6 @@ export async function activateUser(token: string): Promise<SubscriptionResponseT
     }
     const data: SubscriptionResponseType = await response.json();
 
-    console.log('DATA activate USER > ', data)
-
     return { success: true, data: data.data} as SubscriptionResponseType
   } catch (error) {
     return { error: `${error}: CATCH Failed to activate user.`, success: false } as SubscriptionResponseType
@@ -80,8 +77,6 @@ export async function deactivateUser(token: string): Promise<SubscriptionRespons
       return {error: `Failed to activate user: ${response.statusText}`, success: false }
     }
     const data: SubscriptionResponseType = await response.json();
-
-    console.log('DATA deactivate USER > ', data)
 
     return { success: true, data: data.data} as SubscriptionResponseType
   } catch (error) {
@@ -114,7 +109,6 @@ export async function checkUserSubscriptionState() {
 
       const data: SubscriptionResponseType = await response.json();
 
-      console.log('check USER SUBSCRIPTION STATE > ', data)
       if (data?.data?.status !== 'active') {
         clearCookies();
         return { success: false, error: 'User not active.' }

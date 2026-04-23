@@ -12,10 +12,11 @@ type Props = {
   search?: string;
   filter?: string;
   articles?: Articles;
+  showFilters?: boolean;
 }
 
 export default function SearchBody(props: Props) {
-  const { categories, search, filter, articles } = props;
+  const { categories, search, filter, articles, showFilters } = props;
   const [searchVal, setSearchVal] = useState(search ? decodeURI(search) : '')
   const [currentPage, setCurrentPage] = useState(1); // use this later on for pagination
   const [currentFilter, setCurrentFilter] = useState(filter || '');
@@ -79,42 +80,44 @@ export default function SearchBody(props: Props) {
 
   return (
     <div className="w-full flex flex-col gap-8">
-      <div className="flex w-full h-full flex-nowrap justify-center items-center gap-6 max-w-300 mx-auto">
-        <div className="flex justify-between items-center w-full">
-          <div className="flex flex-col gap-2 relative">
-            <input
-              className="w-full lg:min-w-112.5 px-4 pr-8 py-2 border border-black rounded-md"
-              defaultValue={searchVal}
-              id="search"
-              name="search"
-              onChange={(e) => {handleSearch(e)}}
-              placeholder="Search..."
-              type="text"
-            />
-            <Search className="absolute size-6 right-2 top-1/2 -translate-y-1/2" />
+      {showFilters ? (
+        <div className="flex w-full h-full flex-nowrap justify-center items-center gap-6 mx-auto">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col gap-2 relative">
+              <input
+                className="w-full lg:min-w-112.5 px-4 pr-8 py-2 border border-black rounded-md"
+                defaultValue={searchVal}
+                id="search"
+                name="search"
+                onChange={(e) => {handleSearch(e)}}
+                placeholder="Search..."
+                type="text"
+              />
+              <Search className="absolute size-6 right-2 top-1/2 -translate-y-1/2" />
+            </div>
+          </div>
+          <div className="flex">
+            <select
+              className="px-4 py-2 border border-black rounded-md hover:cursor-pointer"
+              id="filter"
+              name="filter"
+              onChange={(e) => handleCurrentFilter(e)}
+              value={currentFilter}
+            >
+              <option
+                value=""
+              >
+                Choose Category
+              </option>
+              {categories.map((category, i) => {
+                return (
+                  <option key={`category_filter_${category.slug}_${i}`} value={category.slug}>{category.name}</option>
+                )
+              })}
+            </select>
           </div>
         </div>
-        <div className="flex">
-          <select
-            className="px-4 py-2 border border-black rounded-md hover:cursor-pointer"
-            id="filter"
-            name="filter"
-            onChange={(e) => handleCurrentFilter(e)}
-            value={currentFilter}
-          >
-            <option
-              value=""
-            >
-              Choose Category
-            </option>
-            {categories.map((category, i) => {
-              return (
-                <option key={`category_filter_${category.slug}_${i}`} value={category.slug}>{category.name}</option>
-              )
-            })}
-          </select>
-        </div>
-      </div>
+      ) : null}
       
       {articleList && articleList.length > 0 
       ?

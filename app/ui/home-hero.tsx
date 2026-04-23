@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { checkUserSubscriptionState } from "../lib/subscription";
+import BtnSubscribe from "./buttons/btn-subscribe";
 
 export default async function HomeHero () {
+  const subStatus = await checkUserSubscriptionState();
+  const isSubscribed = subStatus.success
+
   return (
     <div className="flex w-full h-full flex-col justify-start items-start gap-8">
       <h1 className="text-3xl lg:text-5xl font-bold mb-0 max-w-full md:max-w-[23ch]">
@@ -16,14 +21,12 @@ export default async function HomeHero () {
       <div className="flex gap-4">
         <Link
           className="flex items-center justify-center gap-2 bg-black text-white rounded-md px-4 py-2  hover:opacity-65 hover:cursor-pointer"
-          href="/articles"
+          href="/search"
         >
           <span>Browse Articles</span>
           <ArrowRight className="w-4" />
         </Link>
-        <button className="flex items-center justify-center gap-2 rounded-md px-4 py-2 hover:text-black hover:cursor-pointer text-black border-2 border-gray-400 hover:border-black hover:text-gray-400">
-          <span>Subscribe</span>
-        </button>
+        <BtnSubscribe isSubscribed={isSubscribed} isHome={true} />
       </div>
     </div>
   );
