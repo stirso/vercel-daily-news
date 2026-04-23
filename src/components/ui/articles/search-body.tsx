@@ -43,23 +43,30 @@ export default function SearchBody(props: Props) {
     setIsLoading(false);
   }
 
-  const handleSearch = useDebouncedCallback((e: ChangeEvent) => {
-    const target = (e.target as HTMLInputElement)
-    const targetVal = target.value
+  const executeSearch = (find: string, target?: HTMLInputElement) => {    
     const params = new URLSearchParams(searchParams);
 
-    if (targetVal !== '' && targetVal.length >= 3) {
-      setSearchVal(targetVal)
-      target.dataset.value = targetVal
-      target.value = targetVal
-      params.set('search', encodeURI(targetVal))
-    } else {
-      target.value = targetVal
+    if (find.length >= 3) {
+      setSearchVal(find)
+      if (target) {
+        target.dataset.value = find
+        target.value = find
+      }
+      params.set('search', encodeURI(find))
+      handleGetArticles(find, '');
+    } else if (find === '') {
+      if (target) target.value = find
       params.delete('search')
+      handleGetArticles(find, '');
     }
 
     replace(`${pathname}?${params.toString()}`);
-    handleGetArticles(targetVal, '');
+  }
+  const handleSearch = useDebouncedCallback((e: ChangeEvent) => {
+    const target = (e.target as HTMLInputElement)
+    const targetVal = target.value
+
+    executeSearch(targetVal, target);
   }, 300);
 
   const handleCurrentFilter = (e: ChangeEvent) => {
@@ -78,6 +85,10 @@ export default function SearchBody(props: Props) {
     replace(`${pathname}?${params.toString()}`);
   }
 
+  const handleClick = () => {
+    executeSearch(searchVal)
+  }
+
   return (
     <div className="w-full flex flex-col gap-8">
       {showFilters ? (
@@ -93,7 +104,15 @@ export default function SearchBody(props: Props) {
                 placeholder="Search..."
                 type="text"
               />
-              <Search className="absolute size-6 right-2 top-1/2 -translate-y-1/2" />
+              <button
+                aria-label="Search"
+                className="absolute right-2 top-1/2 -translate-y-1/2 hover:cursor-pointer"
+                onClick={() => {handleClick()}}
+                title="Search"
+                type="button"
+              >
+                <Search className=" size-6" />
+              </button>
             </div>
           </div>
           <div className="flex">

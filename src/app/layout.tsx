@@ -59,7 +59,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <div className="flex flex-col flex-1 items-center justify-start bg-zinc-50 font-sans">
+        <div className="flex flex-col flex-1 items-center justify-start font-sans">
           <Suspense fallback={<div className="full"></div>}>
             <Navigation />
           </Suspense>
