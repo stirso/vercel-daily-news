@@ -9,7 +9,6 @@ import Link from "next/link";
 // Rename to ErrorBoundary to avoid shadowing global Error
 export default function ErrorBoundary({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
