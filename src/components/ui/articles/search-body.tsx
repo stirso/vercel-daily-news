@@ -1,10 +1,10 @@
 'use client';
-import { useState, ChangeEvent, Suspense } from 'react';
-import { Articles, CategoryList, ResponseType } from '@/app/lib/types';
+import { useState, ChangeEvent } from 'react';
+import { Articles, CategoryList, ResponseType } from '@/types/types';
 import { Search } from 'lucide-react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
-import { getArticles } from '@/app/lib/articles';
+import { getArticles } from '@/services/articles';
 import ArticleGrid from './article-grid';
 
 type Props = {

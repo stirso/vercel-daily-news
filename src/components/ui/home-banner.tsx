@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { TriangleAlert } from 'lucide-react';
-import { getArticleBySlug, getBreakingNews } from '../lib/articles';
-import type { Article, BreakingNews, ResponseType } from '../lib/types';
+import { getArticleBySlug, getBreakingNews } from '../../services/articles';
+import type { Article, BreakingNews, ResponseType } from '../../types/types';
 
 export default async function HomeBanner () {
   const breakingNews: ResponseType = await getBreakingNews();

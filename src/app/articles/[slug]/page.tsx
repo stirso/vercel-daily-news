@@ -1,14 +1,14 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { getArticleBySlug } from '@/app/lib/articles'
-import type { Article, ResponseType } from '@/app/lib/types'
-import { RenderArticleContent } from '@/app/lib/helpers'
-import PostTrending from '@/app/ui/articles/post-trending'
+import { getArticleBySlug } from '@/services/articles'
+import type { Article, ResponseType } from '@/types/types'
+import { RenderArticleContent } from '@/lib/helpers'
+import PostTrending from '@/components/ui/articles/post-trending'
 import clsx from 'clsx'
 import { metadata } from '@/app/layout'
-import { checkUserSubscriptionState } from '@/app/lib/subscription'
-import Paywall from '@/app/ui/paywall'
+import { checkUserSubscriptionState } from '@/services/subscription'
+import Paywall from '@/components/ui/paywall'
 
 // ✅ Direct data access - preferred approach
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -61,7 +61,6 @@ export default async function PostPage({ params }: Props) {
   const subStatus = await checkUserSubscriptionState();
   const isSubscribed = subStatus.success
 
-  console.log('IS SUBSCRIBED IN POST PAGE > ', isSubscribed)
   if (!post.success) {
     notFound();
   }
@@ -72,7 +71,8 @@ export default async function PostPage({ params }: Props) {
   return (
     <div className="w-full container px-4 flex flex-col justify-between items-start pt-8 gap-8 lg:gap-16">
       <article className="flex flex-col gap-8 mx-auto max-w-full lg:max-w-300">
-        <header className="flex flex-col gap-4">
+        <header className="flex flex-col gap-6 lg:gap-8">
+          <h1 className="font-bold text-3xl lg:text-5xl text-center w-full text-balance px-6">{data.title}</h1>
           <div className="relative overflow-hidden aspect-square md:aspect-5/2 w-full bg-gray-100/50 rounded-lg before:content-[''] before:z-1 before:absolute before:w-full before:h-full before:bg-gray-300/50">
             {data.image && 
               <Image
@@ -85,8 +85,6 @@ export default async function PostPage({ params }: Props) {
                 src={data.image}
               />
             }
-            
-            <h1 className="font-bold text-3xl lg:text-5xl absolute z-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full max-w-[25ch] text-balance px-6">{data.title}</h1>
           </div>
           <div className="text-sm text-gray-500">
             By {data.author.name} | {publishedDate.toLocaleDateString()}
@@ -109,11 +107,11 @@ export default async function PostPage({ params }: Props) {
         </div>
 
         <footer className="flex flex-col gap-8">
-          <div className="flex flex-wrap gap-2 border-y py-4">
-            {data.tags.map((tag) => (
+          <div className="flex flex-wrap gap-2 border-y py-4 items-center">
+            <label>Categories: </label>{data.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-600 font-semibold"
+                className="rounded bg-gray-400/30 px-2 py-1 text-sm text-gray-600 font-semibold"
               >
                 {tag}
               </span>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Header from './header';
 import Image from "next/image";
 import BtnSubscribe from './buttons/btn-subscribe';
-import { checkUserSubscriptionState } from '../lib/subscription';
+import { checkUserSubscriptionState } from '../../services/subscription';
 
 export default async function Navigation () {
   const subStatus = await checkUserSubscriptionState();

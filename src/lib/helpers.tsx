@@ -1,4 +1,4 @@
-import type { ContentBlock } from "./types";
+import type { ContentBlock } from "../types/types";
 import Image from "next/image";
 
 export function RenderArticleContent({ blocks }: { blocks: ContentBlock[] }) {

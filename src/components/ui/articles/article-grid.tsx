@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { Articles } from '@/app/lib/types';
+import type { Articles } from '@/src/app/lib/types';
 import Loading from "../skeletons/loading";
 
 type Props = {

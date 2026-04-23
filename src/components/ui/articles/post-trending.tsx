@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { getTrendingArticles } from '@/app/lib/articles';
-import type { Articles, ResponseType } from '@/app/lib/types';
+import { getTrendingArticles } from "@/services/articles";
+import type { Articles, ResponseType } from "@/types/types";
 import ArticleGrid from "./article-grid";
 
 export default async function PostTrending () {
@@ -20,7 +20,7 @@ export default async function PostTrending () {
         </div>
         <Link
           className="text-gray-500 text-base hover:cursor-pointer"
-          href="/articles"
+          href="/search"
         >
           View All
         </Link>

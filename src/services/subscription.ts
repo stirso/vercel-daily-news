@@ -1,7 +1,7 @@
 'use server';
 
 import { cookies } from "next/headers";
-import { SubscriptionResponseType } from "./types";
+import { SubscriptionResponseType } from "../types/types";
 import { API_TOKEN, API_URL } from "./articles";
 
 const SUBSCRIPTION_COOKIE = "vercel-daily-news-subscription";

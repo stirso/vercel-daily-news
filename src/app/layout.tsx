@@ -1,9 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navigation from "./ui/navigation";
-import Footer from "./ui/footer";
+import "../styles/globals.css";
+import Navigation from "../components/ui/navigation";
+import Footer from "../components/ui/footer";
 import { Suspense } from "react";
-import Loading from "./ui/skeletons/loading";
+import Loading from "../components/ui/skeletons/loading";
 import type { Metadata } from "next";
 
 const geistSans = Geist({

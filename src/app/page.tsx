@@ -1,6 +1,6 @@
-import HomeBanner from "./ui/home-banner";
-import HomeHero from "./ui/home-hero";
-import HomeFeatured from "./ui/articles/home-featured";
+import HomeBanner from "../components/ui/home-banner";
+import HomeHero from "../components/ui/home-hero";
+import HomeFeatured from "../components/ui/articles/home-featured";
 
 export default function Home () {
   return (

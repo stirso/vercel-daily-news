@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
-import { getArticles } from '@/app/lib/articles';
-import type { Articles, ResponseType } from '@/app/lib/types';
+import { getArticles } from "@/services/articles";
+import type { Articles, ResponseType } from "@/types/types";
 import ArticleGrid from "./article-grid";
 
 export default async function HomeFeatured () {

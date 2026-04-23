@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { checkUserSubscriptionState } from "../lib/subscription";
+import { checkUserSubscriptionState } from "../../services/subscription";
 import BtnSubscribe from "./buttons/btn-subscribe";
 
 export default async function HomeHero () {

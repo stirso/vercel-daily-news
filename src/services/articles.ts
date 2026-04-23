@@ -1,7 +1,7 @@
 "use cache";
 
 import { cacheLife, cacheTag } from 'next/cache'
-import type { ArticleFilters, ResponseType } from './types';
+import type { ArticleFilters, ResponseType } from '../types/types';
 
 export const API_URL = process.env.NEWS_API_URL || '';
 export const API_TOKEN = process.env.NEWS_API_TOKEN || '';
@@ -16,7 +16,6 @@ export async function getBreakingNews() {
         'Content-Type': 'application/json',
         'x-vercel-protection-bypass': API_TOKEN,
       },
-      cache: 'no-cache',
     });
     
     if (!response.ok) {
@@ -41,7 +40,6 @@ export async function getTrendingArticles() {
         'Content-Type': 'application/json',
         'x-vercel-protection-bypass': API_TOKEN,
       },
-      cache: 'no-cache',
     });
     
     if (!response.ok) {
@@ -86,14 +84,13 @@ export async function getArticles(featured?: boolean, limit?: number, filter?: A
 
     cacheLife('articles')
     cacheTag('articles')
-    console.log(path)
+
     const response = await fetch(path, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'x-vercel-protection-bypass': API_TOKEN,
       },
-      cache: 'no-cache',
     });
     
     if (!response.ok) {
@@ -119,7 +116,6 @@ export async function getArticleBySlug(slug: string) {
         'Content-Type': 'application/json',
         'x-vercel-protection-bypass': API_TOKEN,
       },
-      cache: 'no-cache',
     });
     
     if (!response.ok) {
@@ -144,7 +140,6 @@ export async function getArticleCategories() {
         'Content-Type': 'application/json',
         'x-vercel-protection-bypass': API_TOKEN,
       },
-      cache: 'no-cache',
     });
 
     if (!response.ok) {

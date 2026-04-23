@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { UserMinus, UserPlus } from 'lucide-react';
-import { clearCookies, deactivateUser, subscribeUser, setCookies } from '@/app/lib/subscription';
-import type { SubscriptionResponseType } from '@/app/lib/types';
+import { clearCookies, deactivateUser, subscribeUser, setCookies } from '@/services/subscription';
+import type { SubscriptionResponseType } from '@/types/types';
 import clsx from 'clsx';
 import Loading from '../skeletons/loading';
 
@@ -58,7 +58,7 @@ export default function BtnSubscribe ({
     if (subBtn) {
       Array.from(subBtn).forEach(btn => {
         const loaderElem = btn.querySelector('.subscribeLoading');
-        if (loaderElem) { console.log('loader > ', loaderElem); }
+
         (btn as HTMLButtonElement).disabled = pending
         if (pending) {
           loaderElem?.classList.remove('hidden');
