@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { UserMinus, UserPlus } from 'lucide-react';
 import { clearCookies, deactivateUser, subscribeUser, setCookies } from '@/app/lib/subscription';
 import type { SubscriptionResponseType } from '@/app/lib/types';
@@ -15,10 +15,9 @@ export default function BtnSubscribe ({
   isSubscribed,
   isPaywall,
 }: Readonly<BtnSubscribeProps>) {
-  const subscribedRef = useRef(isSubscribed);
   const [userSubscribed, setUserSubscribed] = useState(isSubscribed || false);
+
   const handleClick = async () => {
-    console.log('handleClick > ', userSubscribed)
     if (userSubscribed) {
       const userToken = await clearCookies();
       if (userToken !== '') {
@@ -31,20 +30,18 @@ export default function BtnSubscribe ({
       }      
     } else {
       const subscribeResponse: SubscriptionResponseType = await subscribeUser();
-
       if (subscribeResponse.success) {
         const userToken = String(subscribeResponse.data?.token);
-        setCookies(userToken);
+        const cookiesSet = await setCookies(userToken);
         setUserSubscribed(true);
+
+        if (isPaywall && cookiesSet) {
+          console.log('SHOULD RELOAD')
+          window.location.reload();
+        }
       }
     }
   };
-
-  useEffect(() => {
-    console.log('subscribedRef > ', subscribedRef)
-    console.log('subscribedRef > ', isPaywall)
-    subscribedRef.current = userSubscribed;
-  }, [userSubscribed, subscribedRef]);
 
   return (
     <button

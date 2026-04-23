@@ -128,7 +128,7 @@ export async function checkUserSubscriptionState() {
   return { success: false }
 }
 
-export async function setCookies(token: string) {
+export async function setCookies(token: string): Promise<boolean | void> {
   const cookieStore = await cookies();
 
   cookieStore.set(SUBSCRIPTION_COOKIE, "true", {
@@ -142,6 +142,8 @@ export async function setCookies(token: string) {
     sameSite: "lax",
     path: "/",
   });
+
+  return true;
 }
 
 export async function clearCookies(): Promise<string> {
