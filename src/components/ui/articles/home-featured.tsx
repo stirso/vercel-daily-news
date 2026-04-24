@@ -7,7 +7,6 @@ type HomeFeaturedProps = {
 }
 
 export default async function HomeFeatured ({ articles }: Readonly<HomeFeaturedProps>) {
-
   return (
     <div className="flex w-full h-full flex-col justify-center items-center gap-6">
       <div className="flex justify-between w-full gap-2 items-start md:items-center">

@@ -9,8 +9,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-source-serif);
+  --font-mono: var(--font-noto-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,11 +21,15 @@
 }
 
 body {
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-mono), system-ui, sans-serif;
   background-color: --background;
   color: --foreground;
 }
 
+*, p {
+  font-family: var(--font-mono), system-ui, sans-serif;
+}
+
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans), system-ui, sans-serif;
 }

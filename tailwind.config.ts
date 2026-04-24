@@ -10,6 +10,8 @@ const config: Config = {
     fontFamily: {
       geistSans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
       geistMono: ['var(--font-geist-mono)', 'system-ui', 'sans-serif'],
+      sourceSerif: ['var(--font-source-serif)', 'system-ui', 'sans-serif'],
+      notoSans: ['var(--font-noto-sans)', 'system-ui', 'sans-serif'],
     },
     extend: {
       gridTemplateColumns: {

@@ -12,7 +12,7 @@ type Props = {
 
 export default function ArticleGrid (props: Props) {
   const { articles, isLoading } = props
-
+  console.log('articles > ', articles)
   return (
     <>
       {isLoading ? (
@@ -35,6 +35,9 @@ export default function ArticleGrid (props: Props) {
                     src={article.image}
                   />
                 }
+                <span className="bg-gray-500/85 p-2 text-xs text-white uppercase absolute font-medium right-4 top-4 rounded-sm">
+                  {article.category}
+                </span>
               </div>
               <div className="flex flex-col gap-4 px-4 pb-4 items-between">
                 <h3 className="text-lg lg:text-2xl font-semibold">

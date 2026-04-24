@@ -108,7 +108,7 @@ export default async function PostPage({ params }: Props) {
 
         <footer className="flex flex-col gap-8">
           <div className="flex flex-wrap gap-2 border-y py-4 items-center">
-            <label>Categories: </label>{data.tags.map((tag) => (
+            <label>Tags: </label>{data.tags.map((tag) => (
               <span
                 key={tag}
                 className="rounded bg-gray-400/30 px-2 py-1 text-sm text-gray-600 font-semibold"
