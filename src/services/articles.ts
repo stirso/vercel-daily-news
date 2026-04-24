@@ -85,8 +85,7 @@ export async function getArticles(featured?: boolean, limit?: number, filter?: A
     }
     cacheLife('articles')
     cacheTag('articles')
-    
-    console.log('path > ', path)
+
     const response = await fetch(path, {
       method: 'GET',
       headers: {
