@@ -1,18 +1,16 @@
 import Link from "next/link";
-import { getArticles } from "@/services/articles";
-import type { Articles, ResponseType } from "@/types/types";
+import { Articles } from "@/types/types";
 import ArticleGrid from "./article-grid";
 
-export default async function HomeFeatured () {
-  const articles: ResponseType = await getArticles(true, 6);
-  
-  if (!articles.success) return null;
+type HomeFeaturedProps = {
+  articles?: Articles;
+}
 
-  const articleItems = (articles.data as never as Articles);
+export default async function HomeFeatured ({ articles }: Readonly<HomeFeaturedProps>) {
 
   return (
     <div className="flex w-full h-full flex-col justify-center items-center gap-6">
-      <div className="flex justify-between items-center w-full">
+      <div className="flex justify-between w-full gap-2 items-start md:items-center">
         <div className="flex flex-col gap-2">
           <h2 className="text-xl lg:text-3xl font-bold">
             Featured
@@ -22,13 +20,13 @@ export default async function HomeFeatured () {
           </span>
         </div>
         <Link
-          className="text-gray-500 text-base hover:cursor-pointer"
+          className="text-gray-500 text-base hover:cursor-pointer min-w-fit"
           href="/articles"
         >
           View All
         </Link>
       </div>
-      {articleItems && <ArticleGrid articles={articleItems} />}
+      {articles && <ArticleGrid articles={articles} />}
     </div>
   );
 }
