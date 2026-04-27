@@ -53,11 +53,11 @@ export default function SearchBody(props: Props) {
         target.value = find
       }
       params.set('search', encodeURI(find))
-      handleGetArticles(find, '');
+      handleGetArticles(find, currentFilter);
     } else if (find === '') {
       if (target) target.value = find
       params.delete('search')
-      handleGetArticles(find, '');
+      handleGetArticles(find, currentFilter);
     }
 
     replace(`${pathname}?${params.toString()}`);
@@ -81,7 +81,7 @@ export default function SearchBody(props: Props) {
       params.delete('filter')
     }
 
-    handleGetArticles('', filterVal)
+    handleGetArticles(searchVal, filterVal)
     replace(`${pathname}?${params.toString()}`);
   }
 
