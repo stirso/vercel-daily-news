@@ -18,7 +18,7 @@ type Props = {
 export default function SearchBody(props: Props) {
   const { categories, search, filter, articles, showFilters } = props;
   const [searchVal, setSearchVal] = useState(search ? decodeURI(search) : '')
-  const [currentPage, setCurrentPage] = useState(1); // use this later on for pagination
+  const currentPage = 1;
   const [currentFilter, setCurrentFilter] = useState(filter || '');
   const [articleList, setArticleList] = useState<Articles>(articles || []);
   const [isLoading, setIsLoading] = useState(false);

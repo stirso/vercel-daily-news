@@ -12,7 +12,7 @@ type Props = {
 
 export default function ArticleGrid (props: Props) {
   const { articles, isLoading } = props
-  console.log('articles > ', articles)
+
   return (
     <>
       {isLoading ? (

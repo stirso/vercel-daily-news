@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Source_Serif_4, Noto_Sans } from "next/font/google";
+import { Source_Serif_4, Noto_Sans } from "next/font/google";
 import "../styles/globals.css";
 import Navigation from "../components/ui/navigation";
 import Footer from "../components/ui/footer";
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     template: '%s | Vercel Daily News',
     default: 'Vercel Daily News',
   },
-  description: 'Changelogs, engeneering deepdives, customer stories, and community updates - all in one place.',
+  description: 'Changelogs, engineering deepdives, customer stories, and community updates - all in one place.',
   keywords: "changelogs deepdives stories updates vercel nextjs react js",
   alternates: {
     canonical: `/`,
   },
   openGraph: {
     title: 'Vercel Daily News',
-    description: 'Changelogs, engeneering deepdives, customer stories, and community updates - all in one place.',
+    description: 'Changelogs, engineering deepdives, customer stories, and community updates - all in one place.',
     siteName: 'Vercel Daily News',
     locale: 'en_US',
     type: 'website',

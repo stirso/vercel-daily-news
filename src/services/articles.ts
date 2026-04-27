@@ -1,4 +1,6 @@
 "use cache";
+import "server-only";
+
 
 import { cacheLife, cacheTag } from 'next/cache'
 import type { ArticleFilters, ResponseType } from '../types/types';
@@ -54,35 +56,37 @@ export async function getTrendingArticles() {
   }
 }
 
-function buildArticlesQuery (filter: ArticleFilters): string {
+function buildArticlesQuery (featured?:boolean, limit?: number, filter?: ArticleFilters): string {
   let queryString = '';
+  const stringParams = new URLSearchParams()
 
-  if (filter.page) {
-    queryString += `&page=${filter.page}`;
+  if (featured) {
+    stringParams.append("featured", String(featured))
   }
 
-  if (filter.category) {
-    queryString += `&category=${filter.category}`;
+  if (limit) {
+    stringParams.append("limit", String(limit))
+  }
+  if (filter?.page) {
+    stringParams.append("page", String(filter.page))
+  }
+
+  if (filter?.category) {
+    stringParams.append("category", String(filter.category))
   }
   
-  if (filter.search) {
-    queryString += `&search=${filter.search}`;
+  if (filter?.search) {
+    stringParams.append("search", String(filter.search))
   }
+  queryString = stringParams.toString()
   return queryString
 }
 
 export async function getArticles(featured?: boolean, limit?: number, filter?: ArticleFilters) {
-  "use cache";
   try {
-    let path = `${API_URL}/articles?${featured ? 'featured=true' : ''}`
+    let path = `${API_URL}/articles?`
+    path += buildArticlesQuery(featured, limit, filter);
 
-    if (limit) {
-      path += `&limit=${limit}`
-    }
-
-    if (filter) {
-      path += buildArticlesQuery(filter);
-    }
     cacheLife('articles')
     cacheTag('articles')
 

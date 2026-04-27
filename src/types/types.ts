@@ -30,12 +30,6 @@ export type SubscriptionUser = {
   updatedAt?: string;
 }
 
-export type ImageType = {
-  src: string;
-  alt: string;
-  caption?: string;	
-}
-
 export type ContentBlock = {
   type: "paragraph" | "heading" | "blockquote" | "unordered-list" | "ordered-list" | "image";
   text?:  string; // For paragraph, heading, blockquote
@@ -56,7 +50,7 @@ export type Article = {
   excerpt: string;
   featured: boolean;
   id: string;
-  image:string;
+  image: string;
   publishedAt: string;
   slug: string;
   tags: string[];

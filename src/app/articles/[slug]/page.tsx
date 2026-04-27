@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { getArticleBySlug } from '@/services/articles'
+import { getArticleBySlug, getArticles } from '@/services/articles'
 import type { Article, ResponseType } from '@/types/types'
 import { RenderArticleContent } from '@/lib/helpers'
 import PostTrending from '@/components/ui/articles/post-trending'
@@ -54,6 +54,11 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+export async function generateStaticParams() {
+  const response = await getArticles(false, 100)
+  return response?.data?.map((article) => ({ slug: article.slug })) ?? []
+}
+
 export default async function PostPage({ params }: Props) {
   const { slug } = await params
   const post: ResponseType = await getArticleBySlug(slug)
@@ -73,7 +78,7 @@ export default async function PostPage({ params }: Props) {
       <article className="flex flex-col gap-8 mx-auto max-w-full lg:max-w-300">
         <header className="flex flex-col gap-6 lg:gap-8">
           <h1 className="font-bold text-3xl lg:text-5xl text-center w-full text-balance px-6">{data.title}</h1>
-          <div className="relative overflow-hidden aspect-square md:aspect-5/2 w-full bg-gray-100/50 rounded-lg before:content-[''] before:z-1 before:absolute before:w-full before:h-full before:bg-gray-300/50">
+          <div className="relative overflow-hidden aspect-square md:aspect-5/2 w-full bg-gray-100/50 rounded-lg">
             {data.image && 
               <Image
                 alt={data.title}
@@ -108,7 +113,7 @@ export default async function PostPage({ params }: Props) {
 
         <footer className="flex flex-col gap-8">
           <div className="flex flex-wrap gap-2 border-y py-4 items-center">
-            <label>Tags: </label>{data.tags.map((tag) => (
+            <span>Tags: </span>{data.tags.map((tag) => (
               <span
                 key={tag}
                 className="rounded bg-gray-400/30 px-2 py-1 text-sm text-gray-600 font-semibold"
