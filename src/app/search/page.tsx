@@ -1,10 +1,7 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next'
 import { metadata } from '../layout';
-import { getArticles, getArticleCategories } from '@/services/articles';
-import { Articles, CategoryList, ResponseType } from '../../types/types';
-import SearchBody from '../../components/ui/articles/search-body';
-import { Suspense } from 'react';
-
+import SearchWrapper from '@/components/ui/search/search-wrapper';
 
 // ✅ Direct data access - preferred approach
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,19 +36,7 @@ export type SearchProps = {
 }
 
 export default async function Search ({ searchParams }: SearchProps) {
-  const {
-    search,
-    filter
-  } = await searchParams;
-
-  const categoriesResponse: ResponseType = await getArticleCategories();
-  const categories: CategoryList = categoriesResponse.data as never as CategoryList;
-  const list: ResponseType = await getArticles(false, 9, {
-    page: 1,
-    category: filter !== '' ? filter : '',
-    search: search !== '' ? search : ''
-  })
-  const articles: Articles = list?.data ? list.data as never as Articles : [];
+  const filters = searchParams.then(sp => ({ search: sp.search, filter: sp.filter }))
 
   return (
     <div className="w-full container px-4 flex flex-col justify-between items-start pt-8 gap-8 lg:gap-16">
@@ -61,13 +46,7 @@ export default async function Search ({ searchParams }: SearchProps) {
         </h1>
       </div>
       <Suspense fallback={null}>
-        <SearchBody
-          articles={articles}
-          categories={categories || []}        
-          filter={filter}
-          search={search}
-          showFilters={true}
-        />
+        <SearchWrapper filters={filters} />
       </Suspense>
     </div>
   );
