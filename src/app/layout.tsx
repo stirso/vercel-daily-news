@@ -2,8 +2,6 @@ import { Source_Serif_4, Noto_Sans } from "next/font/google";
 import "../styles/globals.css";
 import Navigation from "../components/ui/navigation";
 import Footer from "../components/ui/footer";
-import { Suspense } from "react";
-import Loading from "../components/ui/skeletons/loading";
 import type { Metadata } from "next";
 
 const sourceSerif = Source_Serif_4({
@@ -53,6 +51,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html
       lang="en"
@@ -60,17 +59,11 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <div className="flex flex-col flex-1 items-center justify-start font-sans">
-          <Suspense fallback={<div className="full"></div>}>
-            <Navigation />
-          </Suspense>
+          <Navigation />
           <main className="flex flex-col w-full justify-start items-center min-h-[50vh]">
-            <Suspense fallback={<Loading />}>
             {children}
-            </Suspense>
           </main>
-          <Suspense fallback={<div>&copy; Vercel Daily. All rights reserved.</div>}>
-            <Footer />
-          </Suspense>
+          <Footer />
         </div>
       </body>
     </html>

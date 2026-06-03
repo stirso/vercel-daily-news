@@ -55,7 +55,8 @@ export default function SearchBody(props: Props) {
       params.set('search', encodeURI(find))
       handleGetArticles(find, currentFilter);
     } else if (find === '') {
-      if (target) target.value = find
+      if (target) target.value = ''
+      setSearchVal('')
       params.delete('search')
       handleGetArticles(find, currentFilter);
     }

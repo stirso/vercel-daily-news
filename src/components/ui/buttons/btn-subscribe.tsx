@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { UserMinus, UserPlus } from 'lucide-react';
-import { clearCookies, deactivateUser, subscribeUser, setCookies } from '@/services/subscription';
+import { checkUserSubscriptionState, clearCookies, deactivateUser, subscribeUser, setCookies } from '@/services/subscription';
 import type { SubscriptionResponseType } from '@/types/types';
 import clsx from 'clsx';
 import Loading from '../skeletons/loading';
+import { usePathname, useRouter } from 'next/navigation';
 
-type BtnSubscribeProps = {
+export type BtnSubscribeProps = {
   isSubscribed: boolean;
   isPaywall?: boolean;
   isHome?: boolean;
@@ -20,7 +21,11 @@ export default function BtnSubscribe ({
 }: Readonly<BtnSubscribeProps>) {
   const [userSubscribed, setUserSubscribed] = useState(isSubscribed || false);
   const [pending, setPending] = useState(false);
-  const handleClick = async () => {
+  const subRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleClick = async () => {    
     if (userSubscribed) {
       setPending(true);
       const userToken = await clearCookies();
@@ -31,7 +36,8 @@ export default function BtnSubscribe ({
           setUserSubscribed(false);
 
           if (isHome) {
-            window.location.reload();
+            // window.location.reload();
+            router.replace(pathname)
           }
         }
         setPending(false);
@@ -46,6 +52,7 @@ export default function BtnSubscribe ({
 
         if ((isPaywall && cookiesSet) || (isHome && cookiesSet)) {
           window.location.reload();
+          router.replace(pathname)
         }
       }
       setPending(false);
@@ -53,6 +60,10 @@ export default function BtnSubscribe ({
   };
 
   useEffect(() => {
+    const checkStatus = async () => {
+      const subStatus = await checkUserSubscriptionState();
+      setUserSubscribed(subStatus.success)
+    }
     const subBtn = document.getElementsByClassName('subscribeBtn')
 
     if (subBtn) {
@@ -68,6 +79,7 @@ export default function BtnSubscribe ({
           (btn as HTMLButtonElement).classList.remove('cursor-wait', 'opacity-65!');
         }
       })
+      checkStatus();
     }
   }, [pending])
 
@@ -79,6 +91,7 @@ export default function BtnSubscribe ({
         isHome ? "rounded-md border-2" : ""
       )}
       onClick={handleClick}
+      ref={subRef}
     >
       {userSubscribed ? <UserMinus className="w-6" /> : <UserPlus className="w-6" />}
       <span>{userSubscribed ? 'Unsubscribe' : 'Subscribe'}</span>

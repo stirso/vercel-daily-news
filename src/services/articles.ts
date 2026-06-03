@@ -83,6 +83,7 @@ function buildArticlesQuery (featured?:boolean, limit?: number, filter?: Article
 }
 
 export async function getArticles(featured?: boolean, limit?: number, filter?: ArticleFilters) {
+  "use cache";
   try {
     let path = `${API_URL}/articles?`
     path += buildArticlesQuery(featured, limit, filter);

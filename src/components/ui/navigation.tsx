@@ -3,13 +3,11 @@
 import Link from 'next/link';
 import Header from './header';
 import Image from "next/image";
-import BtnSubscribe from './buttons/btn-subscribe';
-import { checkUserSubscriptionState } from '../../services/subscription';
+import BtnSubscribeWrapper from './buttons/btn-subscribe-wrapper';
+import { Suspense } from 'react';
+import SkeletonButton from './skeletons/skeleton-button';
 
 export default async function Navigation () {
-  const subStatus = await checkUserSubscriptionState();
-  const isSubscribed = subStatus.success
-
   return (
     <header className="flex w-full h-full flex-col justify-center items-center sticky top-0 z-10 bg-white border-b">
       <div className="relative container px-4 flex justify-between items-center">
@@ -30,7 +28,10 @@ export default async function Navigation () {
           <div className="flex flex-1 flex-row justify-start">
             <Header />
           </div>
-          <BtnSubscribe isSubscribed={isSubscribed} />
+          
+          <Suspense fallback={<SkeletonButton classname='relative flex items-center justify-center gap-2 md:p-2 md:px-3 hover:cursor-pointer hover:opacity-65' label="Subscribe" />}>
+            <BtnSubscribeWrapper />
+          </Suspense>
         </div>
       </div>
     </header>

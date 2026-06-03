@@ -3,6 +3,7 @@ import { metadata } from '../layout';
 import { getArticles, getArticleCategories } from '@/services/articles';
 import { Articles, CategoryList, ResponseType } from '../../types/types';
 import SearchBody from '../../components/ui/articles/search-body';
+import { Suspense } from 'react';
 
 
 // ✅ Direct data access - preferred approach
@@ -59,13 +60,15 @@ export default async function Search ({ searchParams }: SearchProps) {
           Search Articles
         </h1>
       </div>
-      <SearchBody
-        articles={articles}
-        categories={categories || []}        
-        filter={filter}
-        search={search}
-        showFilters={true}
-      />
+      <Suspense fallback={null}>
+        <SearchBody
+          articles={articles}
+          categories={categories || []}        
+          filter={filter}
+          search={search}
+          showFilters={true}
+        />
+      </Suspense>
     </div>
   );
 }
