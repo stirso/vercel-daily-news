@@ -1,13 +1,11 @@
-import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import clsx from 'clsx'
 import { getArticleBySlug } from '@/services/articles'
+import { checkUserSubscriptionState } from '@/services/subscription'
 import type { Article, ResponseType } from '@/types/types'
 import { RenderArticleContent } from '@/lib/helpers'
 import PostTrending from '@/components/ui/articles/post-trending'
-import { checkUserSubscriptionState } from '@/services/subscription'
 import Paywall from '@/components/ui/paywall'
-import Loading from '@/components/ui/skeletons/loading'
 
 type Props = {
   slug: string
@@ -26,7 +24,7 @@ export default async function ArticleWrapper({ slug }: Props) {
   const fullContent = isSubscribed ? data.content : data.content.slice(0, 1);
 
   return (
-    <Suspense fallback={<Loading />}>
+    <>
       <div className={clsx("relative w-full", !isSubscribed && "p-8" )}>
         <div className={clsx(
             "relative flex flex-col prose w-full max-w-full md:max-w-4/5 mx-auto *:last:mb-0 **:text-pretty **:wrap-break-word",
@@ -55,6 +53,6 @@ export default async function ArticleWrapper({ slug }: Props) {
         </div>
         <PostTrending />
       </footer>
-    </Suspense>
+    </>
   )
 }

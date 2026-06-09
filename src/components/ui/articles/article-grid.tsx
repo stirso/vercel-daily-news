@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Articles } from "@/types/types";
-import Loading from "../skeletons/loading";
+import { ArticleGridSkeleton } from "../skeletons/skeletons";
 
 type Props = {
   articles: Articles;
@@ -16,7 +16,7 @@ export default function ArticleGrid (props: Props) {
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <ArticleGridSkeleton />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {articles?.map((article) => (

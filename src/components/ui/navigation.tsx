@@ -5,7 +5,7 @@ import Header from './header';
 import Image from "next/image";
 import BtnSubscribeWrapper from './buttons/btn-subscribe-wrapper';
 import { Suspense } from 'react';
-import SkeletonButton from './skeletons/skeleton-button';
+import { ButtonSkeleton } from './skeletons/skeletons';
 
 export default async function Navigation () {
   return (
@@ -29,7 +29,7 @@ export default async function Navigation () {
             <Header />
           </div>
           
-          <Suspense fallback={<SkeletonButton classname='relative flex items-center justify-center gap-2 md:p-2 md:px-3 hover:cursor-pointer hover:opacity-65' label="Subscribe" />}>
+          <Suspense fallback={<ButtonSkeleton />}>
             <BtnSubscribeWrapper />
           </Suspense>
         </div>

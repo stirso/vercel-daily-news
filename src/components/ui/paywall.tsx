@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import BtnSubscribeWrapper from "./buttons/btn-subscribe-wrapper";
-import SkeletonButton from "./skeletons/skeleton-button";
+import { ButtonSkeleton } from "./skeletons/skeletons";
 
 export default function Paywall () {
   return (
@@ -11,7 +11,7 @@ export default function Paywall () {
           Want to view the full article?
         </span>
       </div>
-      <Suspense fallback={<SkeletonButton classname='relative flex items-center justify-center gap-2 md:p-2 md:px-3 hover:cursor-pointer hover:opacity-65' label="Subscribe" />}>
+      <Suspense fallback={<ButtonSkeleton />}>
         <BtnSubscribeWrapper isPaywall={true} />
       </Suspense>
     </div>

@@ -33,3 +33,9 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}

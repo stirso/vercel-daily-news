@@ -5,7 +5,7 @@ import { getArticleBySlug, getArticles } from '@/services/articles'
 import type { Article, ResponseType } from '@/types/types'
 import { metadata } from '@/app/layout'
 import { Suspense } from 'react'
-import Loading from '@/components/ui/skeletons/loading'
+import { ArticleSkelton } from '@/components/ui/skeletons/skeletons'
 import ArticleWrapper from '@/components/ui/articles/article-wrapper'
 
 // ✅ Direct data access - preferred approach
@@ -91,7 +91,7 @@ export default async function PostPage({ params }: Props) {
           </div>
         </header>
         
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<ArticleSkelton />}>
           <ArticleWrapper slug={slug} />
         </Suspense>
       </article>
