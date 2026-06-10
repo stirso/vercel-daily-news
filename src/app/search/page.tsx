@@ -46,7 +46,7 @@ export default async function Search ({ searchParams }: SearchProps) {
           Search Articles
         </h1>
       </div>
-      <Suspense fallback={<ArticleGridSkeleton />}>
+      <Suspense fallback={<ArticleGridSkeleton isPage />}>
         <SearchWrapper filters={filters} />
       </Suspense>
     </div>

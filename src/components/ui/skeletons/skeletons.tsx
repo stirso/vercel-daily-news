@@ -44,35 +44,37 @@ export function ArticleCardSkeleton() {
   )
 }
 
-export function ArticleGridSkeleton() {
+export function ArticleGridSkeleton({isPage}: {readonly isPage?: boolean;}) {
   return (
     <>
-      <div className="flex w-full h-full flex-nowrap justify-center items-center gap-6 mx-auto">
-        <div className="relative flex justify-between items-center w-full">
-          <div className="flex flex-col gap-2 relative">
-            <input
-              className="w-full lg:min-w-112.5 px-4 pr-8 py-2 border border-black rounded-md"
-              id="search"
-              name="search"
-              placeholder="Search..."
-              type="text"
-            />
+      {isPage ? (
+        <div className="flex w-full h-full flex-nowrap justify-center items-center gap-6 mx-auto">
+          <div className="relative flex justify-between items-center w-full">
+            <div className="flex flex-col gap-2 relative">
+              <input
+                className="w-full lg:min-w-112.5 px-4 pr-8 py-2 border border-black rounded-md"
+                id="search"
+                name="search"
+                placeholder="Search..."
+                type="text"
+              />
+            </div>
+          </div>
+          <div className="flex">
+            <select
+              className="px-4 py-2 border border-black rounded-md hover:cursor-pointer"
+              id="filter"
+              name="filter"
+            >
+              <option
+                value=""
+              >
+                Choose Category
+              </option>
+            </select>
           </div>
         </div>
-        <div className="flex">
-          <select
-            className="px-4 py-2 border border-black rounded-md hover:cursor-pointer"
-            id="filter"
-            name="filter"
-          >
-            <option
-              value=""
-            >
-              Choose Category
-            </option>
-          </select>
-        </div>
-      </div>
+      ) : null}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         <ArticleCardSkeleton />
         <ArticleCardSkeleton />
