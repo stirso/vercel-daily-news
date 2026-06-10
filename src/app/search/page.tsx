@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next'
 import { metadata } from '../layout';
 import SearchWrapper from '@/components/ui/search/search-wrapper';
+import { ArticleGridSkeleton } from '@/components/ui/skeletons/skeletons';
 
 // ✅ Direct data access - preferred approach
 export async function generateMetadata(): Promise<Metadata> {
@@ -45,7 +46,7 @@ export default async function Search ({ searchParams }: SearchProps) {
           Search Articles
         </h1>
       </div>
-      <Suspense fallback={null}>
+      <Suspense fallback={<ArticleGridSkeleton />}>
         <SearchWrapper filters={filters} />
       </Suspense>
     </div>
